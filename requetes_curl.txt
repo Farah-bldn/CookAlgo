@@ -1,0 +1,40 @@
+# ==========================================
+# TESTS DE L'API COOKALGO (Requêtes cURL)
+# ==========================================
+
+# 1. AUTHENTIFICATION
+# -------------------
+# Créer un compte
+curl -X POST http://localhost:5000/api/auth/register \
+-H "Content-Type: application/json" \
+-d '{"nom":"Test", "prenom":"User", "pseudo":"Testeur", "email":"test@cookalgo.com", "password":"password123", "passwordConfirm":"password123"}'
+
+# Se connecter (Récupération du Token)
+curl -X POST http://localhost:5000/api/auth/login \
+-H "Content-Type: application/json" \
+-d '{"email":"test@cookalgo.com", "password":"password123"}'
+
+
+# 2. RECETTES (MESSAGES)
+# ----------------------
+# Récupérer toutes les recettes (avec filtres optionnels)
+curl -X GET "http://localhost:5000/api/messages?ingredient=Tomate"
+
+# Publier une nouvelle recette (Nécessite de remplacer le pseudo)
+curl -X POST http://localhost:5000/api/messages \
+-H "Content-Type: application/json" \
+-d '{"title":"Salade", "content":"Couper les tomates", "ingredients":"Tomate", "author":"Testeur"}'
+
+# Ajouter un commentaire à une recette (Remplacer l'ID par un vrai ID de recette)
+curl -X POST http://localhost:5000/api/messages/ID_DE_LA_RECETTE/comments \
+-H "Content-Type: application/json" \
+-d '{"author":"Testeur", "content":"Super recette !"}'
+
+
+# 3. ADMINISTRATEUR
+# -----------------
+# Récupérer la liste des utilisateurs (Pour le tableau de bord Admin)
+curl -X GET http://localhost:5000/api/admin/users
+
+# Supprimer une recette (Réservé à l'admin, Remplacer l'ID)
+curl -X DELETE http://localhost:5000/api/messages/ID_DE_LA_RECETTE
